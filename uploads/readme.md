@@ -1,0 +1,1 @@
+folder ini berisi seluruh image yang di upload, folder ini di generate dari app.py
