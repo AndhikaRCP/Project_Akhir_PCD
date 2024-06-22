@@ -133,6 +133,14 @@ def coin_recog() :
 
     i = 0
     total = 0
+    countCoinBasedCategory = {
+        'koinSeratus': 0,
+        'koinDuaratus': 0,
+        'koinLimaratus': 0,
+        'koinSeribu': 0,
+        }
+    nominalUang = 0
+    
     while i < len(diameter): # loop over diameters
         d = diameter[i] # get diameter
         print('d = ',d)
@@ -142,12 +150,20 @@ def coin_recog() :
         (x, y) = coordinates[i] # get coordinates
         if m == "lima_ratus": # if material is lima_ratus peso
             t = "500"
+            countCoinBasedCategory["koinLimaratus"] += 1
+            nominalUang += 500
         elif m == "seribu": # if material is five cents
             t = "1.000"
+            countCoinBasedCategory["koinSeribu"] += 1
+            nominalUang += 1000
         elif m == "seratus": # if material is seratus peso
             t = "100"
+            countCoinBasedCategory["koinSeratus"] += 1
+            nominalUang += 100
         elif m == "dua_ratus": # if material is dua_ratus peso
             t = "200"
+            countCoinBasedCategory["koinDuaratus"] += 1
+            nominalUang += 200
         else: # if material is unknown
             t = "Unknown"
 
@@ -165,10 +181,26 @@ def coin_recog() :
     cv2.putText(output, scaledTo, (5, output.shape[0] - 40), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 0, 255), lineType = cv2.LINE_AA)
     cv2.putText(output, "Jumlah Koin : {}".format(count, total / 100), (5, output.shape[0] - 24), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 0, 255), lineType = cv2.LINE_AA)
     cv2.putText(output, "Classifier mean accuracy: {}%".format(score), (5, output.shape[0] - 8), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 0, 255), lineType = cv2.LINE_AA)
-
-    cv2.imwrite("uploads/output_image.jpg", output)
     
-
+    cv2.imwrite("uploads/output_image.jpg", output)
+    # print('JUMLAH KOIN : ',count)
+    # print('KATEGORI KOIN', countCoinBasedCategory)
+    # print('Nominal KOIN', nominalUang)
+    
+    dataOutput = {
+        "jumlahKoin" : count,
+        "jumlahKoinBasedCategory" : countCoinBasedCategory,
+        "nominalUang" : nominalUang
+    }
+    
+    # print('jumlah Koin ', dataOutput["jumlahKoin"])
+    # print('jumlah Koin ', dataOutput["jumlahKoinBasedCategory"])
+    # print('jumlah Koin ', dataOutput["nominalUang"])
+    # print("-"*30)
+    # print('jumlah Koin ', dataOutput["jumlahKoinBasedCategory"]['koinSeratus'])
+    # print('jumlah Koin ', dataOutput["jumlahKoinBasedCategory"]['koinDuaratus'])
+    # print('jumlah Koin ', dataOutput["jumlahKoinBasedCategory"]['koinLimaratus'])
+    # print('jumlah Koin ', dataOutput["jumlahKoinBasedCategory"]['koinSeribu'])
     cv2.waitKey(0)
     cv2.destroyAllWindows()
-    return output
+    return dataOutput

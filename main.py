@@ -29,8 +29,9 @@ def upload():
         if os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'], 'input_image.jpg')):
             os.remove(os.path.join(app.config['UPLOAD_FOLDER'], 'input_image.jpg'))  # delete the existing 'latest_image.jpg'
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'input_image.jpg'))  # save the uploaded image to 'latest_image.jpg'
-        coin_recognition.coin_recog()
-        return render_template('result.html', filename='output_image.jpg')
+        dataOutput = coin_recognition.coin_recog()
+        print("INI ADALAH DATA OUTPUT ",dataOutput)
+        return render_template('result.html', filename='output_image.jpg', data=dataOutput)
     else:
         # handle GET request
         return render_template('upload.html')
