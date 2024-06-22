@@ -2,14 +2,15 @@
 
 Program mendeteksi uang logam 
 
-Input   : Gambar kumpulan Uang Logam
-Proses  : Gambar input di proses dengan MLPclassifier dan dicocokkan dengan kumpulan citra sample
-Output : - citra yang sudah mendeteksi uang logam berdasarkan jenis nya
-         - Jumlah keseluruhan uang logam
-         - Total Nominal uang logam
-         - Jumlah uang logam berdasarkan kategori nya masing masing
+- Input   : Gambar kumpulan Uang Logam
+- Proses  : Gambar input di proses dengan MLPclassifier dan dicocokkan dengan kumpulan citra sample
+- Output :
+  - citra yang sudah mendeteksi uang logam berdasarkan jenis nya
+  - Jumlah keseluruhan uang logam
+  - Total Nominal uang logam
+  - Jumlah uang logam berdasarkan kategori nya masing masing
 
-## Kelompok 
+## Kelompok 12
 
 ## Nama Kelompok : 
 - Andhika Rizky Cahya Putra 22226250071
