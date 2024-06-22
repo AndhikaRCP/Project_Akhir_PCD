@@ -166,9 +166,6 @@ def coin_recog() :
     cv2.putText(output, "Jumlah Koin : {}".format(count, total / 100), (5, output.shape[0] - 24), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 0, 255), lineType = cv2.LINE_AA)
     cv2.putText(output, "Classifier mean accuracy: {}%".format(score), (5, output.shape[0] - 8), cv2.FONT_HERSHEY_PLAIN, 1.0, (0, 0, 255), lineType = cv2.LINE_AA)
 
-    # show output and wait for key to terminate program
-    cv2.imshow("Output", output)
-    
     cv2.imwrite("uploads/output_image.jpg", output)
     
 
