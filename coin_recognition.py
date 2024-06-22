@@ -1,8 +1,19 @@
 import numpy as np
 import glob
 import cv2
-from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import train_test_split
+from keras.models import load_model
+from PIL import Image, ImageOps
+
+# Disable scientific notation for clarity
+np.set_printoptions(suppress=True)
+
+# Load the model
+model = load_model("keras_Model.h5", compile=False)
+
+# Load the labels
+class_names = open("labels.txt", "r").readlines()
+
 
 def image_resizing(newWidth,image):
     # resize image while retaining aspect ratio
@@ -45,7 +56,7 @@ def coin_recog() :
     # apply edge detection to image
     circles = cv2.HoughCircles(imageAfterPreprocessing, cv2.HOUGH_GRADIENT, dp = 2.2, minDist = 100, param1 = 200, param2 = 100, minRadius = 50, maxRadius = 120)
     # Enumerate material types for use in classifier
-    Material = Enum(('lima_ratus', 'seribu', 'seratus', 'dua_ratus'))
+    Material = Enum(('seratus', 'dua_ratus', 'lima_ratus', 'seribu'))
 
     # locate sample image files
     sample_images_lima_ratus = glob.glob("sample_images/lima_ratus/*.png")
@@ -71,21 +82,34 @@ def coin_recog() :
         DATAS.append(calc_hist_from_file(i))
         labels.append(Material.dua_ratus)
 
-    # instantiate classifier
-    classifier = MLPClassifier(solver = "adam", hidden_layer_sizes=(1000,), max_iter=100000,learning_rate="adaptive")
+    # # instantiate classifier
+    # classifier = MLPClassifier(solver = "adam", hidden_layer_sizes=(1000,), max_iter=100000,learning_rate="adaptive")
 
-    # split samples into training and test data
-    DATA_train, DATA_test, label_train, label_test = train_test_split(DATAS, labels, test_size = 0.5)
+    # # split samples into training and test data
+    # DATA_train, DATA_test, label_train, label_test = train_test_split(DATAS, labels, test_size = 0.5)
 
-    # train and score classifier
-    classifier.fit(DATA_train, label_train) # train classifier
-    score = int(classifier.score(DATA_test, label_test) * 100) # calculate score
-    print("Classifier mean accuracy: ", score) # print accuracy
+    # # train and score classifier
+    # classifier.fit(DATA_train, label_train) # train classifier
+    # score = int(classifier.score(DATA_test, label_test) * 100) # calculate score
+    # print("Classifier mean accuracy: ", score) # print accuracy
 
     def predictMaterial(roi):
-        hist = calc_histogram(roi) # calculate feature vector for region of interest
-        s = classifier.predict([hist]) # predict material type
-        return Material[int(s)] # return predicted material type
+        size = (224, 224)
+        roi_image = Image.fromarray(cv2.cvtColor(roi, cv2.COLOR_BGR2RGB))
+        image = ImageOps.fit(roi_image, size, Image.Resampling.LANCZOS)
+        image_array = np.asarray(image)
+        normalized_image_array = (image_array.astype(np.float32) / 127.5) - 1
+        data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
+        data[0] = normalized_image_array
+        prediction = model.predict(data)
+        index = np.argmax(prediction)
+        class_name = class_names[index].strip()
+        
+        # Convert class name to Material enum
+        if class_name in Material:
+            return class_name
+        else:
+            raise ValueError(f"Unknown class name: {class_name}")
 
     diameter = []
     materials = []
@@ -104,7 +128,7 @@ def coin_recog() :
             count += 1
             coordinates.append((koordinat_x, koordinat_y)) # add coordinates to list
             roi = inputImage[koordinat_y - radius:koordinat_y + radius, koordinat_x - radius:koordinat_x + radius] # extract region of interest
-            material = predictMaterial(roi) # predict material type
+            material = predictMaterial(roi)
             materials.append(material) # add material type to list
             # membuat lingkaran pada setiap gambar koin
             cv2.circle(output, (koordinat_x, koordinat_y), radius, (0, 255, 0), 2)
