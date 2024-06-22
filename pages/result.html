@@ -8,7 +8,7 @@
       body {
         background-color: #f5f5f5;
       }
-     .container {
+      .container {
         max-width: 800px;
         margin: 40px auto;
         padding: 20px;
@@ -16,47 +16,57 @@
         border: 1px solid #ddd;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       }
-     .result-header {
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: -15px;
+        margin-left: -15px;
+      }
+      .col-md-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+      }
+      .result-header {
         text-align: center;
         margin-bottom: 20px;
       }
-     .result-header h1 {
+      .result-header h1 {
         font-weight: bold;
         font-size: 24px;
         margin-bottom: 10px;
       }
-     .result-detail {
+      .result-detail {
         margin-bottom: 20px;
       }
-     .result-detail p {
+      .result-detail p {
         font-size: 16px;
         margin-bottom: 10px;
       }
-     .category-list {
+      .category-list {
         list-style: none;
         padding: 0;
         margin: 0;
       }
-     .category-list li {
+      .category-list li {
         padding: 10px;
         border-bottom: 1px solid #ccc;
       }
-     .category-list li:last-child {
+      .category-list li:last-child {
         border-bottom: none;
       }
-     .category-list li span {
+      .category-list li span {
         font-weight: bold;
         margin-right: 10px;
       }
-     .original-image {
+      .original-image {
         text-align: center;
         margin-top: 20px;
       }
-     .original-image h1 {
+      .original-image h1 {
         font-size: 20px;
         margin-bottom: 10px;
       }
-     .original-image img {
+      .original-image img {
         max-width: 100%;
         height: auto;
         margin: 20px auto;
@@ -69,23 +79,26 @@
       <div class="result-header">
         <h1>Coin Recognition Result</h1>
       </div>
-      <div class="result-detail">
-        <p> Jumlah Koin: {{ data.jumlahKoin }} </p>
-        <p> Total Nominal Uang : {{ data.nominalUang }} </p>
-      </div>
-      <hr>
-      <div class="category-list">
-        <h2>Jumlah Koin berdasarkan kategori</h2>
-        <ul>
-          <li><span>Koin Seratus :</span> {{ data.jumlahKoinBasedCategory.koinSeratus }}</li>
-          <li><span>Koin Dua Ratus :</span> {{ data.jumlahKoinBasedCategory.koinDuaratus }}</li>
-          <li><span>Koin Lima Ratus :</span> {{ data.jumlahKoinBasedCategory.koinLimaratus }}</li>
-          <li><span>Koin Seribu :</span> {{ data.jumlahKoinBasedCategory.koinSeribu }}</li>
-        </ul>
-      </div>
-      <div class="original-image">
-        <h1>Image Hasil Deteksi</h1>
-        <img src="{{ url_for('send_file', filename=filename) }}" alt="Original Image">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="result-detail">
+            <p> Jumlah Koin: {{ data.jumlahKoin }} </p>
+            <p> Total Nominal Uang : {{ data.nominalUang }} </p>
+            <h2>Jumlah Koin berdasarkan kategori</h2>
+            <ul class="category-list">
+              <li><span>Koin Seratus :</span> {{ data.jumlahKoinBasedCategory.koinSeratus }}</li>
+              <li><span>Koin Dua Ratus :</span> {{ data.jumlahKoinBasedCategory.koinDuaratus }}</li>
+              <li><span>Koin Lima Ratus :</span> {{ data.jumlahKoinBasedCategory.koinLimaratus }}</li>
+              <li><span>Koin Seribu :</span> {{ data.jumlahKoinBasedCategory.koinSeribu }}</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="original-image">
+            <h1>Image Hasil Deteksi</h1>
+            <img src="{{ url_for('send_file', filename=filename) }}" alt="Original Image">
+          </div>
+        </div>
       </div>
     </div>
   </body>

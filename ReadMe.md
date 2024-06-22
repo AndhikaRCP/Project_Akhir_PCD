@@ -10,6 +10,13 @@ Program mendeteksi uang logam
   - Total Nominal uang logam
   - Jumlah uang logam berdasarkan kategori nya masing masing
 
+### Cara Run Program ? 
+- Install Python
+- Install PIP
+- run di cmd pip install -r requirements.txt
+- run di cmd py main.py
+- ctrl + Klik di tulisan Running on http://127.0.0.1:5000
+
 ## Kelompok 12
 
 ## Nama Kelompok : 
