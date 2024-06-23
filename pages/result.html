@@ -2,14 +2,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Result</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <title>Coin Recognition</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://icons.getbootstrap.com/assets/icons/coin.svg"
+    />
     <style>
       body {
         background-color: #f5f5f5;
       }
       .container {
-        max-width: 800px;
+        max-width: 950px;
         margin: 40px auto;
         padding: 20px;
         background-color: #fff;
@@ -68,35 +76,135 @@
       }
       .original-image img {
         max-width: 100%;
+        box-shadow: 3px 3px 10px rgba(20, 20, 20, 0.2),
+          -3px 3px 10px rgba(20, 20, 20, 0.2),
+          0px 3px 10px rgba(20, 20, 20, 0.2),
+          0px -3px 10px rgba(20, 20, 20, 0.2);
         height: auto;
         margin: 20px auto;
         border: 1px solid #ddd;
+      }
+
+      .back-button {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: #afa74c;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      .back-button:hover {
+        background-color: #8e7b3e;
       }
     </style>
   </head>
   <body>
     <div class="container">
       <div class="result-header">
+        <button class="back-button" onclick="location.href='/'">Back</button>
         <h1>Coin Recognition Result</h1>
       </div>
       <div class="row">
         <div class="col-md-6">
           <div class="result-detail">
-            <p> Jumlah Koin: {{ data.jumlahKoin }} </p>
-            <p> Total Nominal Uang : {{ data.nominalUang }} </p>
-            <h2>Jumlah Koin berdasarkan kategori</h2>
-            <ul class="category-list">
-              <li><span>Koin Seratus :</span> {{ data.jumlahKoinBasedCategory.koinSeratus }}</li>
-              <li><span>Koin Dua Ratus :</span> {{ data.jumlahKoinBasedCategory.koinDuaratus }}</li>
-              <li><span>Koin Lima Ratus :</span> {{ data.jumlahKoinBasedCategory.koinLimaratus }}</li>
-              <li><span>Koin Seribu :</span> {{ data.jumlahKoinBasedCategory.koinSeribu }}</li>
-            </ul>
+            <div class="row">
+              <div class="col-md-6 font-weight-bold">
+                <p>Jumlah Koin</p>
+              </div>
+              <div class="col-md-0">
+                <p>:</p>
+              </div>
+              <div class="col">
+                <p>{{ data.jumlahKoin }} buah</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 font-weight-bold">
+                <p>Total Nominal Uang</p>
+              </div>
+              <div class="col-md-0">
+                <p>:</p>
+              </div>
+              <div class="col">
+                <p>Rp {{ data.nominalUang }}</p>
+              </div>
+            </div>
+
+            <table class="table table-striped table-bordered text-center">
+              <thead>
+                <tr>
+                  <th colspan="3">Jumlah Koin berdasarkan kategori</th>
+                </tr>
+
+                <tr>
+                  <th>Gambar</th>
+                  <th>Kategori Koin</th>
+                  <th>Jumlah</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <img
+                      src="https://media.istockphoto.com/id/1484958088/id/foto/seratus-rupiah-koin-indonesia.jpg?s=170667a&w=0&k=20&c=0ddpUNWmi4YWeGumUNm8-zIE-999_IwfzftC3Av2948="
+                      alt="Gambar"
+                      width="50"
+                      height="50"
+                    />
+                  </td>
+                  <td>Koin Seratus</td>
+                  <td>{{ data.jumlahKoinBasedCategory.koinSeratus }}</td>
+                </tr>
+                <tr>
+                  <td>
+                    <img
+                      src="https://th.bing.com/th/id/OIP.C5y6DuvsOi3B6ZQn5fwLegAAAA?rs=1&pid=ImgDetMain"
+                      alt="Gambar"
+                      width="50"
+                      height="50"
+                    />
+                  </td>
+                  <td>Koin Dua Ratus</td>
+                  <td>{{ data.jumlahKoinBasedCategory.koinDuaratus }}</td>
+                </tr>
+                <tr>
+                  <td>
+                    <img
+                      src="https://th.bing.com/th/id/OIP.g2-koc-z10iDt-Hg2d9fvwAAAA?rs=1&pid=ImgDetMain"
+                      alt="Gambar"
+                      width="50"
+                      height="50"
+                    />
+                  </td>
+                  <td>Koin Lima Ratus</td>
+                  <td>{{ data.jumlahKoinBasedCategory.koinLimaratus }}</td>
+                </tr>
+                <tr>
+                  <td>
+                    <img
+                      src="https://th.bing.com/th/id/OIP.Eey7yr536bBPERiQxXkTMgAAAA?rs=1&pid=ImgDetMain"
+                      alt="Gambar"
+                      width="50"
+                      height="50"
+                    />
+                  </td>
+                  <td>Koin Seribu</td>
+                  <td>{{ data.jumlahKoinBasedCategory.koinSeribu }}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
         <div class="col-md-6">
           <div class="original-image">
             <h1>Image Hasil Deteksi</h1>
-            <img src="{{ url_for('send_file', filename=filename) }}" alt="Original Image">
+            <img
+              src="{{ url_for('send_file', filename=filename) }}"
+              alt="Original Image"
+            />
           </div>
         </div>
       </div>

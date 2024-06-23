@@ -3,7 +3,6 @@ from werkzeug.utils import secure_filename
 import os
 import coin_recognition
 
-
 app = Flask(__name__, template_folder="pages")
 app.config['UPLOAD_FOLDER'] = 'uploads'
 
@@ -23,17 +22,15 @@ def index():
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
-        # handle POST request
         file = request.files['image']
         print(file)
         if os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'], 'input_image.jpg')):
-            os.remove(os.path.join(app.config['UPLOAD_FOLDER'], 'input_image.jpg'))  # delete the existing 'latest_image.jpg'
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'input_image.jpg'))  # save the uploaded image to 'latest_image.jpg'
+            os.remove(os.path.join(app.config['UPLOAD_FOLDER'], 'input_image.jpg'))  
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], 'input_image.jpg'))  
         dataOutput = coin_recognition.coin_recog()
         print("INI ADALAH DATA OUTPUT ",dataOutput)
         return render_template('result.html', filename='output_image.jpg', data=dataOutput)
     else:
-        # handle GET request
         return render_template('upload.html')
 
 @app.route('/uploads/<filename>')

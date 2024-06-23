@@ -11,7 +11,7 @@ Program mendeteksi uang logam
   - Jumlah uang logam berdasarkan kategori nya masing masing
 
 ### Cara Run Program ? 
-- Install Python
+- Install Python versi 3.8 
 - Install PIP
 - run di cmd pip install -r requirements.txt
 - run di cmd py main.py
